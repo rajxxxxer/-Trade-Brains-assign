@@ -44,7 +44,7 @@ export default function TickerBar() {
           return (
             <span
               key={idx}
-              className="inline-flex items-center gap-2 px-6 border-r border-gray-700"
+              className="inline-flex items-center gap-2 px-3 sm:px-4 md:px-6 border-r border-gray-700 text-xs sm:text-sm md:text-base"
             >
               <strong>{symbl}</strong>
               <span>₹{Number(pric).toFixed(2)}</span>
