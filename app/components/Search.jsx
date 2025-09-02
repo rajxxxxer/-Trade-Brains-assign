@@ -58,13 +58,15 @@ export default function Search() {
         placeholder="Search stock e.g. RELIANCE"
         className="w-full px-4 py-2 rounded-lg border border-gray-700 bg-gray-900 text-white text-sm sm:text-base"
       />
-      {loading && <div className="text-sm text-gray-400 mt-1">Searching…</div>}
+      {loading && <div className="text-sm text-gray-400 mt-1">loadingg…</div>}
       
       {list.length > 0 && (
         <div className="absolute mt-2 w-full bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-10 max-h-64 overflow-y-auto">
           {list.map((it, idx) => {
-            const symbol = it.symbol || "";
+            const symbol = it.symbol ;
+
             const name = it.company || symbol;
+            
             return (
               <div
                 key={idx}
