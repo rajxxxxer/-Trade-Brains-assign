@@ -1,7 +1,7 @@
 // app/api/assignment/stock/[symbol]/route.js
 export async function GET(req,{ params }) {
   try {
-    const  symbol  = params?.symbol;
+    const  {symbol}=params;
 
     if (!symbol) {
       return Response.json({ err:"data nott found" });

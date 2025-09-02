@@ -1,67 +1,33 @@
-"use client";
+import StockPage from "./StockPage";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import GraphComp from "@/app/components/GraphComp";
-import Testcompon from "@/app/components/Testcompon";
+export async function generateMetadata({ params }) {
+  const symbol = params.symbol?.toUpperCase();
+  let name = "";
 
-export default function StockPage() {
-  const { symbol } = useParams();
-  const [data, setData] = useState(null);
-  const [text, setText] = useState(false);
+  try {
+    const base = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const res = await fetch(`${base}/api/assignment/stock/${symbol}`, {
+      cache: "no-store",
+    });
+    const json = await res.json();
+    name = json?.meta?.name || json?.name || "";
+  } catch (e) {
+    // ignore error
+  }
 
-  useEffect(() => {
-    if (!symbol) return;
+  const title = name
+    ? `${name} (${symbol}) — Price & Chart`
+    : `${symbol} — Price & Chart`;
 
-    async function fetchData() {
-      try {
-        const res = await fetch(`/api/assignment/stock/${symbol}`);
-        const data_stock = await res.json();
-        console.log("ressp", data_stock);
-        setData(data_stock);
-      } catch (err) {
-        console.error("err ftchng stck:", err);
-      }
-    }
+  const description = `Live ${name || symbol} stock price, chart and details.`;
 
-    fetchData();
-  }, [symbol]);
+  return {
+    title,
+    description,
+    keywords: [name, symbol, `${symbol} stock`, `${symbol} share price`].filter(Boolean),
+  };
+}
 
-  return (
-    <>
-      <div className="min-h-screen bg-gray-950 text-white p-4 sm:p-6">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-center">
-          selected_Stock: {symbol}
-        </h1>
-
-        <div className="mb-4 flex justify-center gap-4 mt-4">
-
-          {/* implnt toogle feature */}
-          <button
-            className="bg-green-800 text-white px-2 py-2 rounded-lg shadow-md hover:bg-green-700 transition duration-200 w-50 sm:w-40"
-            onClick={() => setText(!text)}
-          >
-            {!text ? "Show Me Text" : "Show Me Graph"}
-          </button>
-        </div>
-       
-        {!data && (
-          <div className="flex justify-center items-center h-32">
-            <div className="w-10 h-10 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-          </div>
-        )}
-
-        {/* implnt graph cmnpont for showng stock */}
-          {!text && data ? (
-           
-         <GraphComp data={data} />
-          ) : (
-            data && (
-        <Testcompon data={data}></Testcompon>
-            )
-          )}
-       
-      </div>
-    </>
-  );
+export default function Page({ params }) {
+  return <StockPage />;
 }
