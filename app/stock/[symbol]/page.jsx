@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import GraphComp from "@/app/components/GraphComp";
+
 
 export default function StockPage() {
   const { symbol } = useParams();
@@ -13,11 +15,11 @@ export default function StockPage() {
     async function fetchData() {
       try {
         const res = await fetch(`/api/assignment/stock/${symbol}`);
-        const json = await res.json();
-        console.log("API Response:", json);
-        setData(json);
+        const data_stock = await res.json();
+        console.log("ressp", data_stock);
+        setData(data_stock);
       } catch (err) {
-        console.error("Error fetching stock:", err);
+        console.error("err ftchng stck:", err);
       }
     }
 
@@ -25,12 +27,16 @@ export default function StockPage() {
   }, [symbol]);
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-4 sm:p-6">
+    <>
+     <div className="min-h-screen bg-gray-950 text-white p-4 sm:p-6">
       <h1 className="text-2xl sm:text-3xl font-bold mb-4">
-        Stock: {symbol}
+        selected_Stock: {symbol}
       </h1>
 
-      {!data && <p className="text-gray-400 text-sm sm:text-base">Loading...</p>}
+      {!data && <div className="flex justify-center items-center h-32">
+  <div className="w-10 h-10 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+</div>
+}
 
       {data && (
         <div className="bg-gray-900 p-4 sm:p-6 rounded-lg shadow-md grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -51,5 +57,8 @@ export default function StockPage() {
         </div>
       )}
     </div>
+    <GraphComp data={data} />
+    </>
+   
   );
 }

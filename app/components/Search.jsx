@@ -27,7 +27,7 @@ export default function Search() {
       } finally {
         setLoading(false);
       }
-    }, 300); // debounce 300ms
+    }, 300); // debounce implmt
     return () => clearTimeout(id);
   }, [q]);
 

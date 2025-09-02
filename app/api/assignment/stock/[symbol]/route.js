@@ -1,32 +1,36 @@
 // app/api/assignment/stock/[symbol]/route.js
-export async function GET(req, { params }) {
+export async function GET(req,{ params }) {
   try {
-    const { symbol } = params;
+    const  symbol  = params?.symbol;
 
     if (!symbol) {
-      return Response.json({ error: "Missing symbol" }, { status: 400 });
+      return Response.json({ err:"data nott found" });
     }
 
     const url = `https://portal.tradebrains.in/api/assignment/stock/${encodeURIComponent(
       symbol
     )}/prices?days=1&type=INTRADAY&limit=1`;
-
+  //used cache "no stre" because we want fresh data
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) {
-      return Response.json({ error: "Upstream failed" }, { status: res.status });
-    }
+   
 
     const data = await res.json();
 
-    // latest record lelo
-    const latest = Array.isArray(data) && data.length > 0 ? data[0] : null;
+   
+    let latest = null;
+
+if (Array.isArray(data)) {
+  if (data.length > 0) {
+    latest = data[0];
+  }
+}
 
     return Response.json({
       symbol,
       ...latest,
     });
   } catch (err) {
-    console.error("API error", err);
-    return Response.json({ error: "Failed stock", details: err.message }, { status: 500 });
+    console.error("errror h", err);
+    return Response.json({ error: "Failed_stock" });
   }
 }
