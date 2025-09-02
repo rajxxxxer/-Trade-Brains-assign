@@ -1,4 +1,5 @@
-import StockPage from "./StockPage";
+import StockPage from "./Stockpage";
+
 
 export async function generateMetadata({ params }) {
   const symbol = params.symbol?.toUpperCase();
@@ -29,5 +30,5 @@ export async function generateMetadata({ params }) {
 }
 
 export default function Page({ params }) {
-  return <StockPage />;
+  return <StockPage></StockPage>
 }
