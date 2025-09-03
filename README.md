@@ -1,3 +1,6 @@
+// fixed deployment issue on vercel its just env issue//Now app is working fine on vercel also
+
+
 "Project tested locally and working as per requirements. For deployment, API base URLs may need to be adjusted or environment variables configured."
 
 
