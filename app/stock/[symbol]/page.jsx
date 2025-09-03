@@ -29,6 +29,19 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function Page({ params }) {
-  return <StockPage></StockPage>
+export default async function Page({ params }) {
+  const symbol = params.symbol?.toUpperCase();
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+  let data = null;
+  try {
+    const res = await fetch(`${base}/api/assignment/stock/${symbol}`, {
+      cache: "no-store",
+    });
+    data = await res.json();
+  } catch (e) {
+    console.error("Error fetching stock:", e);
+  }
+
+  return <StockPage symbol={symbol} data={data} />;
 }

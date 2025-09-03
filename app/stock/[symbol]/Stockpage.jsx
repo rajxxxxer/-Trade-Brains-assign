@@ -1,53 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams,useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import GraphComp from "@/app/components/GraphComp";
 import Testcompon from "@/app/components/Testcompon";
 
-
-export default function StockPage() {
-  const { symbol } = useParams();
-  const [data, setData] = useState(null);
+export default function StockPage({ symbol, data }) {
   const [text, setText] = useState(false);
-  const routr=useRouter();
-  const handlehome = ()=>{
+  const routr = useRouter();
+
+  const handlehome = () => {
     routr.push(`/`);
-  }
-
-  useEffect(() => {
-    if (!symbol) return;
-
-    async function fetchdata() {
-      try {
-        const res = await fetch(`/api/assignment/stock/${symbol}`);
-        const data_stock = await res.json();
-        console.log("ressp", data_stock);
-        setData(data_stock);
-      } catch (err) {
-        console.error("err ftchng stck:", err);
-      }
-    }
-
-    fetchdata();
-  }, [symbol]);
+  };
 
   return (
     <>
       <div className="min-h-screen bg-gray-950 text-white p-4 sm:p-6">
-     <div className="flex flex-col items-center gap-4 sm:gap-6">
-  <button
-    className="bg-blue-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700 transition duration-200 w-40"
-    onClick={handlehome}
-  >
-    Back To Home
-  </button>
+        <div className="flex flex-col items-center gap-4 sm:gap-6">
+          <button
+            className="bg-blue-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700 transition duration-200 w-40"
+            onClick={handlehome}
+          >
+            Back To Home
+          </button>
 
-  <h1 className="text-2xl sm:text-3xl font-bold text-center">
-    selected Stock: {symbol}
-  </h1>
-</div>
-
+          <h1 className="text-2xl sm:text-3xl font-bold text-center">
+            selected Stock: {symbol}
+          </h1>
+        </div>
 
         <div className="mb-4 flex justify-center gap-4 mt-4">
           {/* implnt toogle feature */}
