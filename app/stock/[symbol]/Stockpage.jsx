@@ -6,6 +6,7 @@ import GraphComp from "@/app/components/GraphComp";
 import Testcompon from "@/app/components/Testcompon";
 
 export default function StockPage({ symbol, data }) {
+  console.log("Rendering StockPage for symbol:", symbol, "with data:", data);
   const [text, setText] = useState(false);
   const routr = useRouter();
 
@@ -39,12 +40,7 @@ export default function StockPage({ symbol, data }) {
           </button>
         </div>
 
-        {!data && (
-          <div className="flex justify-center items-center h-32">
-            {/* loding spinr */}
-            <div className="w-10 h-10 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-          </div>
-        )}
+     
 
         {/* implnt graph cmnpont for showng stock */}
         {!text && data ? (

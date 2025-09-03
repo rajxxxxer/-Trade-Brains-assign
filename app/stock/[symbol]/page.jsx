@@ -39,6 +39,7 @@ export default async function Page({ params }) {
       cache: "no-store",
     });
     data = await res.json();
+    console.log("Fetched data for symbol:", symbol, data);
   } catch (e) {
     console.error("Error fetching stock:", e);
   }
